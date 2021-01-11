@@ -1,5 +1,7 @@
 # directed weighted graph 
 
+![Graph](https://user-images.githubusercontent.com/41864040/104228878-20404100-5454-11eb-9904-0e4572065ce9.png)
+
 ### about the project 
 In this project i made a data structure of a directed weighted graph in python.
 I also made some methods that you can run on this project, like the shortest path between two nodes,
