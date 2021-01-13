@@ -9,9 +9,9 @@ I also made some methods that you can run on this project, like the shortest pat
 
 ## Classes
 
-##### DiGraph
+#### DiGraph - first part
 
-This class implements the GraphInterface interface. 
+Firs path of this project. this class implements the GraphInterface interface. 
 This class have the following methods:
 
 **get_all_v** return a collection of all the nodes in the graph.
@@ -41,9 +41,9 @@ node else false.
 In this class we have another inner class **Node**.
  This class represent the nodes that our graph is made from.
   
-#### GraphAlgo
+### GraphAlg - second part
 
-This class implements the GraphAlgoInterface interface. in this class we have the algorithms we can run on our graph,
+second part of this project. this class implements the GraphAlgoInterface interface. in this class we have the algorithms we can run on our graph,
 also in this class we have methods to save and load the graph in json fashion. contains the following methods:
 
 **get_graph** returns the DiGraph which the algorithm works on.
@@ -59,3 +59,6 @@ also in this class we have methods to save and load the graph in json fashion. c
 **connected_components** return all the strongly connected component in the graph .
 
 **plot_graph** plots the graph.
+
+### Third part
+in the lat part of this project i compered this graph with the networkx library and my other graph that i made in java. 
