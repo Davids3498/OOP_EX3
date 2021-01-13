@@ -11,25 +11,53 @@ class DiGraph(GraphInterface):
     def __repr__(self):
         return "Graph: |V|=" + len(self.V).__str__() + " , |E|=" + self.E_num.__str__()
 
+    """
+    :returns the number of nodes in the graph
+    """
+
     def v_size(self) -> int:
         return len(self.V)
+
+    """
+    :returns the number of edges in the graph
+    """
 
     def e_size(self) -> int:
         return self.E_num
 
+    """
+    :returns a dictionary of all the nodes in the graph
+    """
+
     def get_all_v(self) -> dict:
         return self.V
+
+    """
+    :returns a dictionary of all the nodes that this node is pointing to
+    """
 
     def all_in_edges_of_node(self, id1: int) -> dict:
         if self.V.__contains__(id1):
             return self.V[id1].get_in()
 
+    """
+    :returns a dictionary of all the nodes that are pointing to this node
+    """
+
     def all_out_edges_of_node(self, id1: int) -> dict:
         if self.V.__contains__(id1):
             return self.V[id1].get_out()
 
+    """
+    :returns the number of changes are made in this graph
+    """
+
     def get_mc(self) -> int:
         return self.MC
+
+    """
+    adds an edge between two nodes 
+    """
 
     def add_edge(self, id1: int, id2: int, weight: float) -> bool:
         if id1 not in self.V or id2 not in self.V or id2 in self.V[id1].get_out() or weight < 0:
@@ -41,6 +69,10 @@ class DiGraph(GraphInterface):
             self.MC += 1
             return True
 
+    """
+    adds a node to the graph 
+    """
+
     def add_node(self, node_id: int, pos: tuple = None) -> bool:
         if not (self.V.__contains__(node_id)):
             n = Node(node_id, pos)
@@ -50,6 +82,10 @@ class DiGraph(GraphInterface):
         else:
             return False
 
+    """
+    removes a node from the graph 
+    """
+
     def remove_node(self, node_id: int) -> bool:
         if not (self.V.__contains__(node_id)):
             return False
@@ -58,9 +94,14 @@ class DiGraph(GraphInterface):
             for node in get_in_copy.keys():
                 self.remove_edge(node, node_id)
             self.E_num -= len(self.V[node_id].get_out())
+            self.MC += len(self.V[node_id].get_out())
             self.V.pop(node_id)
             self.MC += 1
             return True
+
+    """
+    removes the edge between two nodes 
+    """
 
     def remove_edge(self, node_id1: int, node_id2: int) -> bool:
         if node_id1 not in self.V or node_id2 not in self.V or node_id2 not in self.V[node_id1].get_out():
@@ -71,6 +112,10 @@ class DiGraph(GraphInterface):
             self.E_num -= 1
             self.MC += 1
             return True
+
+    """
+    Node class
+    """
 
 
 class Node(object):
@@ -127,8 +172,10 @@ class Node(object):
     def __lt__(self, other):
         if self.get_distance() == "inf" and other.get_distance() == "inf":
             return 0
+        if self.get_distance() == "visited" and other.get_distance() == "visited":
+            return 0
         if self.get_distance() == "inf":
             return -1
         if other.get_distance() == "inf":
             return 1
-        return self.distance < other.distance
+        return self.get_distance() < other.get_distance()

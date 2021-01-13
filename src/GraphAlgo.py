@@ -8,11 +8,24 @@ import random
 
 
 class GraphAlgo(GraphAlgoInterface, DiGraph):
+    """
+    init
+    """
+
     def __init__(self, g: DiGraph = None):
         self.g = g
 
+    """
+    :returns the graph that we preforms the algorithms on
+    """
+
     def get_graph(self):
         return self.g
+
+    """
+    loads a graph from json
+    :returns true if successfully loaded else false  
+    """
 
     def load_from_json(self, file_name: str) -> bool:
         self.g = DiGraph()
@@ -34,6 +47,11 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
         except IOError as e:
             print(e)
             return False
+
+    """
+    saves a graph to json
+    :returns true if successfully saved else false  
+    """
 
     def save_to_json(self, file_name: str) -> bool:
         Nodes = []
@@ -58,13 +76,22 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
             return False
         pass
 
+    """
+    finds the shortest path between two nodes 
+    :returns the distance and a list of the path itself (list of integers that represent nodes)  
+    """
+
     def shortest_path(self, id1: int, id2: int) -> (float, list):
+        if self.g == None:
+            return (float('inf'), [])
+
         for node in self.g.get_all_v():
             self.g.get_all_v()[node].set_distance("inf")
             self.g.get_all_v()[node].set_previous_node(None)
 
         if id1 not in self.g.get_all_v() or id2 not in self.g.get_all_v():
             return (float('inf'), [])
+
         dist = 0
         self.g.get_all_v()[id1].set_distance(dist)
         PQ = []
@@ -74,13 +101,15 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
             node1 = heapq.heappop(PQ)
             dist = self.g.get_all_v()[node1.get_id()].get_distance()  # equals to: dist = node1.get_distance()
             for node2 in self.g.all_out_edges_of_node(node1.get_id()):
-                if self.g.get_all_v()[node2].get_distance() == "inf" or self.g.get_all_v()[node2].get_distance() > dist:
-                    heapq.heappush(PQ, self.g.get_all_v()[node2])
                 new_dist = dist + self.g.get_all_v()[node1.get_id()].get_weight(node2)
-                if self.g.get_all_v()[node2].get_distance() == "inf" or new_dist < self.g.get_all_v()[
-                    node2].get_distance():
+                if self.g.get_all_v()[node2].get_distance() == "inf":
                     self.g.get_all_v()[node2].set_distance(new_dist)
                     self.g.get_all_v()[node2].set_previous_node(node1)
+                    heapq.heappush(PQ, self.g.get_all_v()[node2])
+                elif new_dist < self.g.get_all_v()[node2].get_distance():
+                    self.g.get_all_v()[node2].set_distance(new_dist)
+                    self.g.get_all_v()[node2].set_previous_node(node1)
+                    heapq.heappush(PQ, self.g.get_all_v()[node2])
 
         if self.g.get_all_v()[id2].get_distance() == "inf":
             return (float('inf'), [])
@@ -92,6 +121,11 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
                 L.insert(0, _id.get_id())
                 _id = self.g.get_all_v()[_id.get_id()].get_previous_node()
             return (self.g.get_all_v()[id2].get_distance(), L)
+
+    """
+    finds all the connected components of the node
+    :returns a list of all the connected component
+    """
 
     def connected_component(self, id1: int) -> list:
         for node in self.g.get_all_v():
@@ -126,6 +160,11 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
 
         return list(set(L_out) & set(L_in))
 
+    """
+    finds all the connected components of the graph
+    :returns a list of lists of all the connected components in the graph
+    """
+
     def connected_components(self) -> List[list]:
         visited = []
         ans = []
@@ -137,6 +176,10 @@ class GraphAlgo(GraphAlgoInterface, DiGraph):
                 visited.extend(L)
 
         return ans
+
+    """
+    plots the graph
+    """
 
     def plot_graph(self) -> None:
         x_val = []

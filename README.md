@@ -1,4 +1,4 @@
-# directed weighted graph 
+# Directed weighted graph 
 
 ![Graph](https://user-images.githubusercontent.com/41864040/104228878-20404100-5454-11eb-9904-0e4572065ce9.png)
 
