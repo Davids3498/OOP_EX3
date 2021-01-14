@@ -91,10 +91,10 @@ class DiGraph(GraphInterface):
             return False
         else:
             get_in_copy = self.V[node_id].get_in().copy()
+            self.MC -= len(self.V[node_id].get_in())
             for node in get_in_copy.keys():
                 self.remove_edge(node, node_id)
             self.E_num -= len(self.V[node_id].get_out())
-            self.MC += len(self.V[node_id].get_out())
             self.V.pop(node_id)
             self.MC += 1
             return True

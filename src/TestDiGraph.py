@@ -27,15 +27,15 @@ class TestDiGraph(unittest.TestCase):
         g.remove_node(3)
         self.assertEqual(g.v_size(), 5)
         self.assertEqual(g.e_size(), 2)
-        self.assertEqual(g.get_mc(), 13)
+        self.assertEqual(g.get_mc(), 11)
         g.remove_node(3)
         self.assertEqual(g.v_size(), 5)
         self.assertEqual(g.e_size(), 2)
-        self.assertEqual(g.get_mc(), 13)
+        self.assertEqual(g.get_mc(), 11)
         g.add_edge(2, 4, 1)
         self.assertEqual(g.v_size(), 5)
         self.assertEqual(g.e_size(), 3)
-        self.assertEqual(g.get_mc(), 14)
+        self.assertEqual(g.get_mc(), 12)
 
     def test_get_all_v(self):
         g = Graph_gen(5)
